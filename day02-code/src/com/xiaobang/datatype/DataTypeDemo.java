@@ -1,3 +1,5 @@
+package com.xiaobang.datatype;
+
 public class DataTypeDemo {
     public static void main(String[] args) {
         String name = "John";  // 引用数据类型

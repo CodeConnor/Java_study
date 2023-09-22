@@ -1,3 +1,5 @@
+package com.xiaobang.variable;
+
 public class VariableDemo {
     public static void main(String[] args){
         // 定义变量

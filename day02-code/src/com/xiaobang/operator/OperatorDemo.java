@@ -1,4 +1,4 @@
-/*
+package com.xiaobang.operator;/*
     需求: 键盘录入一个三位数,将其拆分为个位、十位、百位后,打印在控制台
  */
 import java.util.Scanner;

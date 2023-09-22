@@ -1,4 +1,4 @@
-//  使用方法: 1. 先导包
+package com.xiaobang.scanner;//  使用方法: 1. 先导包
 import java.util.Scanner;
 public class ScannerDemo {
     public static void main(String[] args) {

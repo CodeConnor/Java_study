@@ -1,3 +1,5 @@
+package com.xiaobang.operator;
+
 public class OperatorDemo2 {
     /*
         需求: 区分++\--分别在变量前或者后参与运算时的情况
