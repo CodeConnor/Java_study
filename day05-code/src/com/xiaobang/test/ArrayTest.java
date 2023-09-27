@@ -144,8 +144,8 @@ public class ArrayTest {
      */
     public static double getAvg(int[] arr){
         int sum = getSum(arr);
-
-        double avg = sum / arr.length;
+        // 注意:必须乘以1.0将整数转换为小数, 否则两个整数相除结果还是整数
+        double avg = (sum * 1.0) / arr.length;
         return avg;
     }
 
@@ -162,4 +162,6 @@ public class ArrayTest {
         }
         return count;
     }
+
+
 }

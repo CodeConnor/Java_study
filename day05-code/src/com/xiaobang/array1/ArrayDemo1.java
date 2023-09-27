@@ -1,4 +1,4 @@
-package com.xiaobang.array;
+package com.xiaobang.array1;
 
 public class ArrayDemo1 {
     public static void main(String[] args) {
