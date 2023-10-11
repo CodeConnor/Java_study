@@ -153,26 +153,5 @@ public class Movie {
         this.starring = starring;
     }
 
-    public String toString() {
-        return "Movie{id = " + id + ", title = " + title + ", time = " + time + ", score = " + score + ", area = " + area + ", type = " + type + ", director = " + director + ", starring = " + starring + "}";
-    }
 
-    /**
-     * 展示所有电影的名称 评分
-     */
-    public void showMovieScore() {
-        System.out.println("片名:" + title + " ---- 评分:" + score);
-    }
-
-    /**
-     * 根据用户提供的编号查询某个电影的全部信息
-     */
-    public void selectMovie(int id) {
-        if (id == this.id) {
-            String result = toString();
-            System.out.println(result);
-        } else {
-            System.out.println("没有查询到结果, 请检查编号是否输入正确");
-        }
-    }
 }
