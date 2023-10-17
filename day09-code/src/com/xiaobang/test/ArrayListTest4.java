@@ -16,15 +16,30 @@ public class ArrayListTest4 {
         list.add("test");
         list.add("test");
 
-        int i = 0;
+        // 方法1
+/*        int i = 0;
         while (i < list.size()) {
             if ("test".equals(list.get(i))) {
                 list.remove(i);
                 continue;
             }
             i++;
-        }
+        }*/
 
+        // 方法2, 手动对计数器减一
+/*        for (int j = 0; j < list.size(); j++) {
+            if ("test".equals(list.get(j))) {
+                list.remove(j);
+                j--;
+            }
+        }*/
+
+        // 方法3, 倒序遍历列表
+        for (int i = list.size() - 1; i >= 0 ; i--){
+            if ("test".equals(list.get(i))) {
+                list.remove(i);
+            }
+        }
         System.out.println(list);
 
     }
