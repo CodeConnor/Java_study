@@ -9,7 +9,15 @@ import java.util.Scanner;
 public class Test {
     public static void main(String[] args) {
 
+        Student stu1 = new Student("001", "John", 18, "2005-05-17");
+        Student stu2 = new Student("002", "Mike", 20, "2003-06-17");
+        Student stu3 = new Student("003", "Lily", 19, "2004-03-17");
+
         ArrayList<Student> stuList = new ArrayList<>();
+
+        stuList.add(stu1);
+        stuList.add(stu2);
+        stuList.add(stu3);
 
         Scanner sc = new Scanner(System.in);
         // 菜单
@@ -20,7 +28,8 @@ public class Test {
             System.out.println("2.删除学生信息");
             System.out.println("3.修改学生信息");
             System.out.println("4.查询学生信息");
-            System.out.println("5.退出");
+            System.out.println("5.查看所有学生信息");
+            System.out.println("6.退出");
             System.out.println("请按提示输入您的选择:");
 
             int userInput = sc.nextInt();
@@ -32,12 +41,15 @@ public class Test {
                     delStuInfo(stuList);
                     break;
                 case 3:
-                    System.out.println("modify");
+                    modifyStuInfo(stuList);
                     break;
                 case 4:
                     queryStuInfo(stuList);
                     break;
                 case 5:
+                    showAllStuInfo(stuList);
+                    break;
+                case 6:
                     System.out.println("已退出,感谢您的使用,再见!");
                     break lo;
                 default:
@@ -46,6 +58,51 @@ public class Test {
             }
         }
 
+    }
+
+    /**
+     *展示所有学生信息
+     */
+    private static void showAllStuInfo(ArrayList<Student> stuList) {
+        if (listIsEmputy(stuList)) return;
+
+        System.out.println("学号\t\t姓名\t\t年龄\t生日");
+        for (int i = 0; i < stuList.size(); i++) {
+            Student stu = stuList.get(i);
+            System.out.println(stu.getId() + "\t\t" + stu.getName() + "\t" + stu.getAge() + "\t" + stu.getBirthday());
+        }
+    }
+
+    /**
+     * 修改学生信息
+     */
+    private static void modifyStuInfo(ArrayList<Student> stuList) {
+        // 检查集合是否为空
+        if (listIsEmputy(stuList)) return;
+
+        System.out.println("请输入您要修改的学生学号:");
+        Scanner sc = new Scanner(System.in);
+        String userInput = sc.nextLine();
+        // 根据用户输入返回索引, 判断查询结果
+        int index = getIndex(userInput, stuList);
+        if (index == -1) {
+            System.out.println("修改失败,请输入正确学号");
+        } else{
+            Student student = stuList.get(index);
+            System.out.println("请输入您要修改的内容");
+            System.out.println("姓名:");
+            String newName = sc.next();
+            student.setName(newName);
+
+            System.out.println("年龄:");
+            int newAge = sc.nextInt();
+            student.setAge(newAge);
+
+            System.out.println("生日");
+            String newBirthday = sc.next();
+            student.setBirthday(newBirthday);
+            System.out.println("修改成功");
+        }
     }
 
     /**
@@ -62,25 +119,24 @@ public class Test {
 
         // 判断是否删除全部
         if ("delete all".equals(userInput)) {
-            for (int i = 0; i < stuList.size(); i++) {
+            // 批量删除集合中的元素时 最好倒序删除
+            for (int i = stuList.size() - 1; i >= 0; i--) {
                 stuList.remove(i);
-                System.out.println("删除成功!");
-                return;
             }
+            System.out.println("删除成功!");
+            return;
         }
 
-        // 删除指定信息
-        for (int i = 0; i < stuList.size(); i++) {
-            if (stuList.get(i).getId().equals(userInput)) {
-                stuList.remove(i);
-                System.out.println("删除成功!");
-                return;
-            }
+        // 判断所输入id对应的对象的索引是否存在
+        int index = getIndex(userInput, stuList);
+        if (index == -1) {
+            // 未查询到id
+            System.out.println("删除失败,请输入正确学号");
+        } else {
+            // 删除对应的对象
+            stuList.remove(index);
+            System.out.println("删除成功!");
         }
-
-        // 没有查询到对应学号
-        System.out.println("删除失败,请输入正确学号");
-
     }
 
     /**
@@ -108,18 +164,16 @@ public class Test {
         System.out.println("请输入您要查询的学生学号:");
         String userInput = sc.nextLine();
 
-        for (int i = 0; i < stuList.size(); i++) {
-            Student stu = stuList.get(i);
-            // 判断学号是否能查询到
-            if (stu.getId().equals(userInput)) {
-                System.out.println("学号:" + stu.getId());
-                System.out.println("姓名:" + stu.getName());
-                System.out.println("年龄:" + stu.getAge());
-                System.out.println("生日:" + stu.getBirthday());
-                return;
-            }
+        int index = getIndex(userInput, stuList);
+        if (index == -1) {
+            System.out.println("查询失败,请输入正确学号");
+        } else {
+            Student stu = stuList.get(index);
+            System.out.println("学号:" + stu.getId());
+            System.out.println("姓名:" + stu.getName());
+            System.out.println("年龄:" + stu.getAge());
+            System.out.println("生日:" + stu.getBirthday());
         }
-        System.out.println("查询失败,请输入正确学号");
     }
 
     /**
@@ -132,21 +186,32 @@ public class Test {
         System.out.println("学号:");
         String id = sc.next();
         // 检查添加的学号是否重复
+        int index = getIndex(id, stuList);
+        // 返回-1代表id不重复
+        if (index == -1) {
+            System.out.println("姓名:");
+            String name = sc.next();
+            System.out.println("年龄:");
+            int age = sc.nextInt();
+            System.out.println("生日:");
+            String birthday = sc.next();
+
+            stuList.add(new Student(id, name, age, birthday));
+            System.out.println("添加成功!");
+        } else {
+            System.out.println("输入的学号重复,请重新输入");
+        }
+    }
+
+    /**
+     * 返回集合对象的id, 与用户输入的id相同的对象在集合中的索引
+     */
+    private static int getIndex(String id, ArrayList<Student> stuList) {
         for (int i = 0; i < stuList.size(); i++) {
             if (stuList.get(i).getId().equals(id)) {
-                System.out.println("输入的学号重复,请重新输入");
-                return;
+                return i;
             }
         }
-
-        System.out.println("姓名:");
-        String name = sc.next();
-        System.out.println("年龄:");
-        int age = sc.nextInt();
-        System.out.println("生日:");
-        String birthday = sc.next();
-
-        stuList.add(new Student(id, name, age, birthday));
-        System.out.println("添加成功!");
+        return -1;
     }
 }
